@@ -6,9 +6,18 @@
         xmlns:local="clr-namespace:WpfApplication1"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="560">
+    <Window.Resources >
+        <ItemsPanelTemplate x:Key="itemspanel">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            </StackPanel>
+        </ItemsPanelTemplate>
+        <DataTemplate x:Key="itemstemplate">
+            <TextBlock Text="{Binding Path=desc}" Foreground="{Binding Path=foreColor}" Background="{Binding Path=backColor}"  VerticalAlignment="Center" Margin="2" />
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.Resources>
-            <Style x:Key="styledItems" TargetType="{x:Type ListBox}">
+            <Style x:Key="listboxStyle" TargetType="{x:Type ListBox}">
                 <Setter Property="ItemTemplate">
                     <Setter.Value>
                         <DataTemplate>
@@ -22,14 +31,7 @@
                                     <RowDefinition Height="210" />
                                 </Grid.RowDefinitions>
 
-                                <Border Margin="4,0" Grid.Column="1" BorderThickness="2" CornerRadius="4">
-                                    <Border.BorderBrush>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#aaa" Offset="0" />
-                                            <GradientStop Color="#222" Offset="1" />
-                                        </LinearGradientBrush>
-                                    </Border.BorderBrush>
-
+                                <Border Margin="4,0" Grid.Column="1" >
                                     <Grid>
                                         <Rectangle>
                                             <Rectangle.Fill>
@@ -44,33 +46,31 @@
                                 </Border>
                                 <Border Grid.Column="2" >
                                     <Grid>
-
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock FontSize="16" Text="{Binding title}" FontWeight="Bold" Grid.Row="1"  />
-                                    <TextBlock FontSize="16" Text="{Binding middleDesc}" FontWeight="Bold" Grid.Row="2" />
-                                        <ListBox DataContext="{Binding colorTags}" Name="colorTagsBox">
-                                            <DataTemplate>
-                                                <TextBlock FontSize="16" Text="{Binding desc}" Foreground="{Binding color}" FontWeight="Bold"/>
-                                            </DataTemplate>
+                                        <TextBlock FontSize="16" Text="{Binding title}" FontWeight="Bold" Grid.Row="0"  />
+                                        <TextBlock FontSize="12" Text="{Binding middleDesc}" Foreground="Gray" Grid.Row="1" />
+                                        <ListBox ItemsSource="{Binding colorTags}"
+                                          ItemsPanel="{StaticResource itemspanel}"
+                                          ItemTemplate="{StaticResource itemstemplate}"
+                                          BorderThickness="0"
+                                          Grid.Row="2">
                                         </ListBox>
+                                        <TextBlock FontSize="16" Text="{Binding priceDesc}" FontWeight="Bold" Foreground="Red" Grid.Row="3"  />
+                                        <TextBlock FontSize="12" Margin="100, 0, 0, 0" Text="{Binding unitPriceDesc}" Foreground="Gray" Grid.Row="3"  />
                                     </Grid>
                                 </Border>
-                                
                             </Grid>
-                            
                         </DataTemplate>
                     </Setter.Value>
                 </Setter>
-
                 <Setter Property="Grid.IsSharedSizeScope" Value="True" />
             </Style>
         </Grid.Resources>
-            <ListBox Style="{StaticResource styledItems}" Margin="27,22,40,13" Name="listBox1">
-                <!--ListBox ItemsSource="{Binding}绑定数据源 Style="{StaticResource styledItems}"绑定listBox样式-->
-            </ListBox>
-        </Grid>
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{StaticResource listboxStyle}" Margin="27,22,40,13" Name="listBox1"></ListBox>
+    </Grid>
 </Window>

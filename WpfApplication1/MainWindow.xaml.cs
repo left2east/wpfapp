@@ -10,7 +10,8 @@ using Models.house;
 using System.IO;
 using System.Windows.Controls;
 using Models;
-using Models.house.ershoufang; 
+using Models.house.ershoufang;
+using System.Windows.Input;
 
 namespace WpfApplication1
 {
@@ -22,18 +23,23 @@ namespace WpfApplication1
     {
         private static List<Ershoufang> getData(int cityId, int limitOffset, int limitCount)
         {
-            string url = string.Format("http://m.api.lianjia.com/house/ershoufang/searchV3?city_id={0}&limit_offset={1}&limit_count={2}",cityId, limitOffset, limitCount);
-            string res = HttpHelper.GetResponseString(HttpHelper.CreateGetHttpResponse(url, 1000, "", null));           
-            var r= JsonHelper.parse<Search>(res);
+            string url = string.Format("http://m.api.lianjia.com/house/ershoufang/searchV3?city_id={0}&limit_offset={1}&limit_count={2}", cityId, limitOffset, limitCount);
+            string res = HttpHelper.GetResponseString(HttpHelper.CreateGetHttpResponse(url, 1000, "", null));
+            var r = JsonHelper.parse<Search>(res);
             return r.data.list;
-            
+        }
+        private void loadList(object sender, MouseWheelEventArgs e)
+        {
+            MessageBox.Show("asdf");
         }
         public MainWindow()
         {
             InitializeComponent();
+
             //string locurl = "D:\\Users\\butterfly.jpg";
             //BackGround.setbackground(locurl);
             this.listBox1.ItemsSource = getData(110000, 10, 10);
+            this.listBox1.MouseWheel += new MouseWheelEventHandler(loadList);
             //this.listBox1.Items.Add(getData(110000, 10, 10));
             //DataContext = getData(110000,10,10);
             //this.listView.ItemsSource = getData();
