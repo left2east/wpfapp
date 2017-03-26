@@ -34,6 +34,20 @@ namespace Models.house
         public string orientation { get; set; }
         [DataMember(Name = "color_tags")]
         public List<ColorTags> colorTags { get; set; }
+        public string priceDesc
+        {
+            get
+            {
+                return (this.price / 10000).ToString("D") + "万";
+            }
+        }
+        public string unitPriceDesc
+        {
+            get
+            {
+                return this.unitPrice + "元/平";
+            }
+        }
         public string middleDesc
         {
             get
@@ -81,5 +95,21 @@ namespace Models.house
         public string desc { get; set; }
         [DataMember(Name = "color")]
         public string color { get; set; }
+        public string foreColor
+        {
+            get
+            {
+                return "#FF" + this.color.ToUpper();
+            }
+        }
+
+        public string backColor
+        {
+            get
+            {
+                return "#22" + this.color.ToUpper();
+            }
+        }
+
     }
 }
